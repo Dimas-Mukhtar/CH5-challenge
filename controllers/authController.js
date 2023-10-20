@@ -151,6 +151,7 @@ exports.updateAuth = async (req, res, next) => {
     if (!auth) {
       return next(new ApiError(`Auth with id ${id} are not exist!`, 404))
     }
+    let hashPasw
     if (password && confirmPassword) {
       if (password.length < 7) {
         return next(new ApiError("Minimum password are 7 character!", 400))
@@ -158,9 +159,9 @@ exports.updateAuth = async (req, res, next) => {
       if (password != confirmPassword) {
         return next(new ApiError("Password and confirmPassword must be the same!", 400))
       }
+      const salt = await bcrypt.genSalt(10)
+      hashPasw = await bcrypt.hash(password, salt)
     }
-    const salt = await bcrypt.genSalt(10)
-    const hashPasw = await bcrypt.hash(password, salt)
     const updateAuth = await Auth.update(
       {
         email,
