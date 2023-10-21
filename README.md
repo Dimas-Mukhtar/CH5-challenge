@@ -77,3 +77,7 @@ only superadmin and admin can access this
 ##### DELETE /api/v1/cars/1
 
 only superadmin and admin can access this
+
+# Database Diagram:
+
+![diagram](./dbdiagram.png)
