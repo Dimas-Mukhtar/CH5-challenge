@@ -72,7 +72,7 @@ exports.getCar = async (req, res, next) => {
     }
     res.status(200).json({
       status: "Success",
-      message: `car with name ${car.name} fetched successfully`,
+      message: `Car with name ${car.name} fetched successfully`,
       data: {
         car
       }

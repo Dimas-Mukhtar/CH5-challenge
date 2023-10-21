@@ -15,7 +15,7 @@ exports.getUsers = async (req, res, next) => {
     })
     res.status(200).json({
       status: "Success",
-      message: "User fetched successfully",
+      message: "Users fetched successfully",
       data: {
         users
       }

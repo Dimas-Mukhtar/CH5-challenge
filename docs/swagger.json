@@ -1,0 +1,2223 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Car Management API",
+    "description": "Binar Academy Chalenge Chapter 5 open API with swagger to completed the challenge",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Auth API resources"
+    },
+    {
+      "name": "Users",
+      "description": "Users API resources"
+    },
+    {
+      "name": "Cars",
+      "description": "Cars API resources"
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:4000",
+      "description": "Local Server"
+    }
+  ],
+  "paths": {
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register",
+        "description": "Only accept for register role member",
+        "requestBody": {
+          "description": "Request body success register member",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "gilang"
+                  },
+                  "age": {
+                    "type": "integer",
+                    "example": 20
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "Semarang"
+                  },
+                  "role": {
+                    "type": "string",
+                    "example": "member"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "gilang@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "12345678"
+                  },
+                  "confirmPassword": {
+                    "type": "string",
+                    "example": "12345678"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success register",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Register as a member successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "dataValues": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 2
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "gilang"
+                            },
+                            "age": {
+                              "type": "integer",
+                              "example": 20
+                            },
+                            "address": {
+                              "type": "string",
+                              "example": "Semarang"
+                            },
+                            "role": {
+                              "type": "string",
+                              "example": "member"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            }
+                          }
+                        },
+                        "newAuth": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 2
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "gilang@gmail.com"
+                            },
+                            "password": {
+                              "type": "string",
+                              "example": "$2a$10$GOCNMX2vtUG5Bk0z.v5E6eekGXjqjtd.6aKTLCL32ffcO8X5yQLVK"
+                            },
+                            "confirmPassword": {
+                              "type": "string",
+                              "example": "$2a$10$GOCNMX2vtUG5Bk0z.v5E6eekGXjqjtd.6aKTLCL32ffcO8X5yQLVK"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 2
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error register, conflict! email already exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Conflict"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Email already exist!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "There's 2 validation error with 400 status code, bad request! because password is lower than 7 character or because password and confirmPassword not same",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Bad request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Minimum password are 7 character!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error register, forbidden! this register route only for member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "This register routes only accept register for role member!. Access to register as a superadmin and admin blocked!. User with role superadmin are made by developer and user with role admin are made by superadmin"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error server!, this can be happen if user want to register but without including one of this name, age, address, email, password, confirmPassword. all of this are required to accepted to the database. or because type an empty string name, address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "notNull Violation: The database doesn't accept your credentials, Please enter name, Name are required!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login",
+        "description": "Login for user role superadmin, admin, and member",
+        "requestBody": {
+          "description": "Request body success login",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "syifa@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234567"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Login successfully"
+                    },
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6InN5aWZhIiwiZW1haWwiOiJzeWlmYUBnbWFpbC5jb20iLCJyb2xlIjoic3VwZXJhZG1pbiIsImlhdCI6MTY5Nzc4OTQxOSwiZXhwIjoxNjk3ODc1ODE5fQ.NNsHI5PxuT0hJiUHsygYiG1nqYniUfF1KfktmF1E0FM"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "There's 2 validation error with 400 status code, Bad request! because not including email and password or because password doesn't match",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Bad request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Email and password are requred for login"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error login, Unauthorized! because email does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Email does not exist, register instead"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/current-user": {
+      "get": {
+        "tags": ["Auth"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Details User by Token",
+        "description": "Route for see the details of user role superadmin, admin, and member by token",
+        "responses": {
+          "200": {
+            "description": "Success get user data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success user details of syifa fetched"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "syifa"
+                            },
+                            "age": {
+                              "type": "integer",
+                              "example": 20
+                            },
+                            "address": {
+                              "type": "string",
+                              "example": "semarang"
+                            },
+                            "role": {
+                              "type": "string",
+                              "example": "superadmin"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:08:42.079Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:08:42.079Z"
+                            },
+                            "Auth": {
+                              "properties": {
+                                "id": {
+                                  "type": "integer",
+                                  "example": 1
+                                },
+                                "email": {
+                                  "type": "string",
+                                  "example": "syifa@gmail.com"
+                                },
+                                "password": {
+                                  "type": "string",
+                                  "example": "$2a$12$lPYe8hgBzhfTc7Us5v2bR.7CMo4.lmZoN1Jpd6xTG8a/298QEjzjS"
+                                },
+                                "confirmPassword": {
+                                  "type": "string",
+                                  "example": "$2a$12$lPYe8hgBzhfTc7Us5v2bR.7CMo4.lmZoN1Jpd6xTG8a/298QEjzjS"
+                                },
+                                "userId": {
+                                  "type": "integer",
+                                  "example": 1
+                                },
+                                "createdAt": {
+                                  "type": "string",
+                                  "example": "2023-10-20T08:08:42.079Z"
+                                },
+                                "updatedAt": {
+                                  "type": "string",
+                                  "example": "2023-10-20T08:08:42.079Z"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 2 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "No token, your access is blocked!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth": {
+      "get": {
+        "tags": ["Auth"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "List of all User Auth",
+        "description": "Only superadmin can access this route",
+        "responses": {
+          "200": {
+            "description": "Success get list user auth",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Auths fetched successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "auth": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "syifa@gmail.com"
+                            },
+                            "password": {
+                              "type": "string",
+                              "example": "$2a$12$lPYe8hgBzhfTc7Us5v2bR.7CMo4.lmZoN1Jpd6xTG8a/298QEjzjS"
+                            },
+                            "confirmPassword": {
+                              "type": "string",
+                              "example": "$2a$12$lPYe8hgBzhfTc7Us5v2bR.7CMo4.lmZoN1Jpd6xTG8a/298QEjzjS"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:08:42.079Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:08:42.079Z"
+                            },
+                            "User": {
+                              "properties": {
+                                "id": {
+                                  "type": "integer",
+                                  "example": 1
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "example": "syifa"
+                                },
+                                "role": {
+                                  "type": "string",
+                                  "example": "superadmin"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user is not superadmin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, only superadmin can access this!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/{id}": {
+      "put": {
+        "tags": ["Auth"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Edite User Auth",
+        "description": "Only superadmin and his own data allowed to access this to update auth",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Numeric ID required",
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Request body success update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "lucky@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456789"
+                  },
+                  "confirmPassword": {
+                    "type": "string",
+                    "example": "123456789"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Auth updated successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "updateAuth": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "lucky@gmail.com"
+                            },
+                            "password": {
+                              "type": "string",
+                              "example": "$2a$12$lPYe8hgBzhfTc7Us5v2bR.7CMo4.lmZoN1Jpd6xTG8a/298QEjzjS"
+                            },
+                            "confirmPassword": {
+                              "type": "string",
+                              "example": "$2a$12$lPYe8hgBzhfTc7Us5v2bR.7CMo4.lmZoN1Jpd6xTG8a/298QEjzjS"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 2
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:08:42.079Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:08:42.079Z"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "There's 2 validation error with 400 status code if want to update password, bad request! because password is lower than 7 character or because password and confirmPassword not same",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Bad request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password and confirmPassword must be the same!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error, Not found! id are not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Not found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Auth with id 7 are not exist!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user with role admin or member try to update not his own data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, you only have access to update and delete yourself"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Auth"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Delete User Auth",
+        "description": "Only superadmin and his own data allowed to access this to delete auth",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Numeric ID required",
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success delete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Auth deleted successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error, Not found! id are not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Not found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Auth with id 7 are not exist!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user with role admin or member try to delete not his own data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, you only have access to update and delete yourself"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "List of all Users",
+        "description": "Only superadmin can access this route",
+        "responses": {
+          "200": {
+            "description": "Success get list users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Users fetched successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "users": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 2
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "gilang"
+                            },
+                            "age": {
+                              "type": "integer",
+                              "example": 20
+                            },
+                            "address": {
+                              "type": "string",
+                              "example": "Semarang"
+                            },
+                            "role": {
+                              "type": "string",
+                              "example": "member"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            }
+                          }
+                        },
+                        "Auth": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 2
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "gilang@gmail.com"
+                            },
+                            "password": {
+                              "type": "string",
+                              "example": "$2a$10$GOCNMX2vtUG5Bk0z.v5E6eekGXjqjtd.6aKTLCL32ffcO8X5yQLVK"
+                            },
+                            "confirmPassword": {
+                              "type": "string",
+                              "example": "$2a$10$GOCNMX2vtUG5Bk0z.v5E6eekGXjqjtd.6aKTLCL32ffcO8X5yQLVK"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 2
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user is not superadmin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, only superadmin can access this!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Create user role admin or member",
+        "description": "Only superadmin can access this route",
+        "requestBody": {
+          "description": "Request body success create user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Yuki"
+                  },
+                  "age": {
+                    "type": "integer",
+                    "example": 20
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "Bandung"
+                  },
+                  "role": {
+                    "type": "string",
+                    "example": "admin"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "yukiang@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "12345678"
+                  },
+                  "confirmPassword": {
+                    "type": "string",
+                    "example": "12345678"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success create user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Users Yuki created successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "users": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 3
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Yuki"
+                            },
+                            "age": {
+                              "type": "integer",
+                              "example": 20
+                            },
+                            "address": {
+                              "type": "string",
+                              "example": "Bandung"
+                            },
+                            "role": {
+                              "type": "string",
+                              "example": "admin"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            }
+                          }
+                        },
+                        "Auth": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 3
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "yuki@gmail.com"
+                            },
+                            "password": {
+                              "type": "string",
+                              "example": "$2a$10$GOCNMX2vtUG5Bk0z.v5E6eekGXjqjtd.6aKTLCL32ffcO8X5yQLVK"
+                            },
+                            "confirmPassword": {
+                              "type": "string",
+                              "example": "$2a$10$GOCNMX2vtUG5Bk0z.v5E6eekGXjqjtd.6aKTLCL32ffcO8X5yQLVK"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 3
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error create user, conflict! email already exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Conflict"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Email already exist!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "There's 2 validation error with 400 status code, bad request! because password is lower than 7 character or because password and confirmPassword not same",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Bad request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Minimum password are 7 character!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user is not superadmin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, only superadmin can access this!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error server!, this can be happen if superadmin want to create user but without including one of this name, age, address, email, password, confirmPassword. all of this are required to accepted to the database. or because type an empty string name, address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "notNull Violation: The database doesn't accept your credentials, Please enter name, Name are required!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Get User by Id",
+        "description": "Only superadmin can access this route",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Numeric ID required",
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success get user by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User with name syifa fethed successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "users": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "syifa"
+                            },
+                            "age": {
+                              "type": "integer",
+                              "example": 20
+                            },
+                            "address": {
+                              "type": "string",
+                              "example": "Semarang"
+                            },
+                            "role": {
+                              "type": "string",
+                              "example": "superadmin"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            }
+                          }
+                        },
+                        "Auth": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "syifa@gmail.com"
+                            },
+                            "password": {
+                              "type": "string",
+                              "example": "$2a$10$GOCNMX2vtUG5Bk0z.v5E6eekGXjqjtd.6aKTLCL32ffcO8X5yQLVK"
+                            },
+                            "confirmPassword": {
+                              "type": "string",
+                              "example": "$2a$10$GOCNMX2vtUG5Bk0z.v5E6eekGXjqjtd.6aKTLCL32ffcO8X5yQLVK"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error, Not found! id are not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Not found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User with id 7 are not exist!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user is not superadmin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, only superadmin can access this!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Edite User by Id",
+        "description": "Only superadmin and his own data allowed to access this to update user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Numeric ID required",
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Request body success update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "syifasyifa@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User with name syifa updated successfully"
+                    },
+
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "updatedUser": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "syifa"
+                            },
+                            "age": {
+                              "type": "integer",
+                              "example": 20
+                            },
+                            "address": {
+                              "type": "string",
+                              "example": "Semarang"
+                            },
+                            "role": {
+                              "type": "string",
+                              "example": "superadmin"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            }
+                          }
+                        },
+                        "Auth": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "syifasyifa@gmail.com"
+                            },
+                            "password": {
+                              "type": "string",
+                              "example": "$2a$10$GOCNMX2vtUG5Bk0z.v5E6eekGXjqjtd.6aKTLCL32ffcO8X5yQLVK"
+                            },
+                            "confirmPassword": {
+                              "type": "string",
+                              "example": "$2a$10$GOCNMX2vtUG5Bk0z.v5E6eekGXjqjtd.6aKTLCL32ffcO8X5yQLVK"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T19:01:02.829Z"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "There's 2 validation error with 400 status code if want to update password, bad request! because password is lower than 7 character or because password and confirmPassword not same",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Bad request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password and confirmPassword must be the same!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error, Not found! id are not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Not found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User with id 7 are not exist!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user with role admin or member try to update not his own data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, you only have access to update and delete yourself"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Delete User by Id",
+        "description": "Only superadmin and his own data allowed to access this to delete user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Numeric ID required",
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success delete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User with name gilang deleted successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error, Not found! id are not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Not found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User with id 7 are not exist!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user with role admin or member try to delete not his own data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, you only have access to update and delete yourself"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cars": {
+      "get": {
+        "tags": ["Cars"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "List of all Cars",
+        "description": "Only superadmin and admin can access this route",
+        "responses": {
+          "200": {
+            "description": "Success get list cars",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cars fetched successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "cars": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "MITSUBISHI"
+                            },
+                            "price": {
+                              "type": "integer",
+                              "example": 2000000
+                            },
+                            "category": {
+                              "type": "string",
+                              "example": "small"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:19:45.203Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:19:45.203Z"
+                            },
+                            "User": {
+                              "id": {
+                                "type": "integer",
+                                "example": 1
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "syifa"
+                              },
+                              "role": {
+                                "type": "string",
+                                "example": "superadmin"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user is member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, cause you is member. only superadmin and admin can access this!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Cars"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Create car",
+        "description": "Only superadmin and admin can access this route",
+        "requestBody": {
+          "description": "Request body success create car",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Sedan"
+                  },
+                  "price": {
+                    "type": "integer",
+                    "example": 100000
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "medium"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success create car",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Congrats syifa, creating car successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "newCar": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Sedan"
+                            },
+                            "price": {
+                              "type": "integer",
+                              "example": 100000
+                            },
+                            "category": {
+                              "type": "string",
+                              "example": "medium"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:19:45.203Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:19:45.203Z"
+                            },
+                            "User": {
+                              "id": {
+                                "type": "integer",
+                                "example": 1
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "syifa"
+                              },
+                              "role": {
+                                "type": "string",
+                                "example": "superadmin"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user is member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, cause you is member. only superadmin and admin can access this!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error server!, this can be happen if superadmin or admin want to create car but without including one of this name, price, category. this are required to save into the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "notNull Violation: The database doesn't accept your credentials, Please enter car name, Name are required!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cars/{id}": {
+      "get": {
+        "tags": ["Cars"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Get Car by Id",
+        "description": "Only superadmin and admin can access this route",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Numeric ID required",
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success get car by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Car with name Sedan fetched successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "cars": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Sedan"
+                            },
+                            "price": {
+                              "type": "integer",
+                              "example": 100000
+                            },
+                            "category": {
+                              "type": "string",
+                              "example": "medium"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:19:45.203Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:19:45.203Z"
+                            },
+                            "User": {
+                              "id": {
+                                "type": "integer",
+                                "example": 1
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "syifa"
+                              },
+                              "role": {
+                                "type": "string",
+                                "example": "superadmin"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error, Not found! id are not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Not found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Car with id 7 are not exist!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user is member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, cause you is member. only superadmin and admin can access this!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Cars"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Edite Car by Id",
+        "description": "Only superadmin and admin can access this route",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Numeric ID required",
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Request body success update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Bis tayo"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Car with name Sedan updated successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "updatedCar": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Bis tayo"
+                            },
+                            "price": {
+                              "type": "integer",
+                              "example": 100000
+                            },
+                            "category": {
+                              "type": "string",
+                              "example": "medium"
+                            },
+                            "userId": {
+                              "type": "integer",
+                              "example": 1
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:19:45.203Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "example": "2023-10-20T08:19:45.203Z"
+                            },
+                            "User": {
+                              "id": {
+                                "type": "integer",
+                                "example": 1
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "syifa"
+                              },
+                              "role": {
+                                "type": "string",
+                                "example": "superadmin"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error, Not found! id are not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Not found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Car with id 7 are not exist!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user is member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, cause you is member. only superadmin and admin can access this!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Cars"],
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Delete Car by Id",
+        "description": "Only superadmin and admin can access this route",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Numeric ID required",
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success delete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Car with name Bis tayo deleted successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error, Not found! id are not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Not found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Car with id 7 are not exist!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "There's 3 validation error with 403 status code, Forbidden! because no token in headers or because token is invalid or because user is member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your access to this is blocked!, cause you is member. only superadmin and admin can access this!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerToken": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

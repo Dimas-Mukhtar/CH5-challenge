@@ -106,7 +106,7 @@ exports.currentUser = async (req, res, next) => {
   try {
     const token = getTokenFromHeaders(req)
     const dataPayloadUser = payloadUser(token)
-    const user = await User.findOne({ where: { id: dataPayloadUser.id } })
+    const user = await User.findOne({ where: { id: dataPayloadUser.id }, include: ["Auth"] })
     res.status(200).json({
       status: "Success",
       message: `Success user details of ${user.name} fetched`,
@@ -132,7 +132,7 @@ exports.getAuths = async (req, res, next) => {
     })
     res.status(200).json({
       status: "Success",
-      message: "Auth fetched successfully",
+      message: "Auths fetched successfully",
       data: {
         auth
       }
@@ -172,7 +172,7 @@ exports.updateAuth = async (req, res, next) => {
     )
     res.status(200).json({
       status: "Success",
-      message: `Auth with name ${auth.name} updated successfully`,
+      message: `Auth updated successfully`,
       data: {
         updateAuth
       }
