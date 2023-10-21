@@ -1,6 +1,6 @@
 # Binar Academy Challenge Chapter 5
 
-- sequelize installed globally in this project. You can install usually npm install sequelize-cli
+- sequelize-cli installed globally in this project. You can install usually npm install sequelize-cli
 - do sequelize seeders to add user with role superadmin. the password is "1234567"
 
 # Swagger Open API Documentation
