@@ -1,5 +1,6 @@
 # Binar Academy Challenge Chapter 5
 
+*sequelize-cli install globally
 lakukan seeders untuk dapat user role superadmin dan passwordnya adalah "1234567"
 
 # Swagger Open API Documentation
